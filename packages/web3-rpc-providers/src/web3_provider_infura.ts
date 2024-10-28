@@ -36,44 +36,44 @@ export class InfuraProvider<
 		super(network, transport, token, host, providerConfigOptions);
 	}
 	public static readonly networkHostMap: { [key: string]: string } = {
-		[Network.PALM_MAINNET]: 'palm-mainnet.infura.io',
-		[Network.PALM_TESTNET]: 'palm-testnet.infura.io',
-		[Network.BLAST_MAINNET]: 'blast-mainnet.infura.io',
-		[Network.BLAST_SEPOLIA]: 'blast-sepolia.infura.io',
-		[Network.AVALANCHE_MAINNET]: 'avalanche-mainnet.infura.io',
-		[Network.AVALANCHE_FUJI]: 'avalanche-fuji.infura.io',
-		[Network.STARKNET_MAINNET]: 'starknet-mainnet.infura.io',
-		[Network.STARKNET_SEPOLIA]: 'starknet-sepolia.infura.io',
-		[Network.ZKSYNC_MAINNET]: 'zksync-mainnet.infura.io',
-		[Network.ZKSYNC_SEPOLIA]: 'zksync-sepolia.infura.io',
-		[Network.CELO_MAINNET]: 'celo-mainnet.infura.io',
-		[Network.CELO_ALFAJORES]: 'celo-alfajores.infura.io',
-		[Network.BSC_MAINNET]: 'bsc-mainnet.infura.io',
-		[Network.BSC_TESTNET]: 'bsc-testnet.infura.io',
-		[Network.MANTLE_MAINNET]: 'mantle-mainnet.infura.io',
-		[Network.MANTLE_SEPOLIA]: 'mantle-sepolia.infura.io',
-		[Network.ETH_MAINNET]: 'mainnet.infura.io',
-		[Network.ETH_HOLESKY]: 'holesky.infura.io',
-		[Network.ETH_SEPOLIA]: 'sepolia.infura.io',
-		[Network.ARBITRUM_MAINNET]: 'arbitrum-mainnet.infura.io',
-		[Network.ARBITRUM_SEPOLIA]: 'arbitrum-sepolia.infura.io',
-		[Network.BASE_MAINNET]: 'base-mainnet.infura.io',
-		[Network.BASE_SEPOLIA]: 'base-sepolia.infura.io',
-		[Network.BNB_MAINNET]: 'opbnb-mainnet.infura.io',
-		[Network.BNB_TESTNET]: 'opbnb-testnet.infura.io',
-		[Network.LINEA_MAINNET]: 'linea-mainnet.infura.io',
-		[Network.LINEA_SEPOLIA]: 'linea-sepolia.infura.io',
-		[Network.POLYGON_MAINNET]: 'polygon-mainnet.infura.io',
-		[Network.POLYGON_AMONY]: 'polygon-amoy.infura.io',
-		[Network.OPTIMISM_MAINNET]: 'optimism-mainnet.infura.io',
-		[Network.OPTIMISM_SEPOLIA]: 'optimism-sepolia.infura.io',
+		[Network.PALM_MAINNET]: 'palm-mainnet',
+		[Network.PALM_TESTNET]: 'palm-testnet',
+		[Network.BLAST_MAINNET]: 'blast-mainnet',
+		[Network.BLAST_SEPOLIA]: 'blast-sepolia',
+		[Network.AVALANCHE_MAINNET]: 'avalanche-mainnet',
+		[Network.AVALANCHE_FUJI]: 'avalanche-fuji',
+		[Network.STARKNET_MAINNET]: 'starknet-mainnet',
+		[Network.STARKNET_SEPOLIA]: 'starknet-sepolia',
+		[Network.ZKSYNC_MAINNET]: 'zksync-mainnet',
+		[Network.ZKSYNC_SEPOLIA]: 'zksync-sepolia',
+		[Network.CELO_MAINNET]: 'celo-mainnet',
+		[Network.CELO_ALFAJORES]: 'celo-alfajores',
+		[Network.BSC_MAINNET]: 'bsc-mainnet',
+		[Network.BSC_TESTNET]: 'bsc-testnet',
+		[Network.MANTLE_MAINNET]: 'mantle-mainnet',
+		[Network.MANTLE_SEPOLIA]: 'mantle-sepolia',
+		[Network.ETH_MAINNET]: 'mainnet',
+		[Network.ETH_HOLESKY]: 'holesky',
+		[Network.ETH_SEPOLIA]: 'sepolia',
+		[Network.ARBITRUM_MAINNET]: 'arbitrum-mainnet',
+		[Network.ARBITRUM_SEPOLIA]: 'arbitrum-sepolia',
+		[Network.BASE_MAINNET]: 'base-mainnet',
+		[Network.BASE_SEPOLIA]: 'base-sepolia',
+		[Network.BNB_MAINNET]: 'opbnb-mainnet',
+		[Network.BNB_TESTNET]: 'opbnb-testnet',
+		[Network.LINEA_MAINNET]: 'linea-mainnet',
+		[Network.LINEA_SEPOLIA]: 'linea-sepolia',
+		[Network.POLYGON_MAINNET]: 'polygon-mainnet',
+		[Network.POLYGON_AMOY]: 'polygon-amoy',
+		[Network.OPTIMISM_MAINNET]: 'optimism-mainnet',
+		[Network.OPTIMISM_SEPOLIA]: 'optimism-sepolia',
 	};
 	// eslint-disable-next-line class-methods-use-this
 	public getRPCURL(network: Network, transport: Transport, token: string, _host: string) {
-		const defaultHost = InfuraProvider.networkHostMap[network];
-		if (!defaultHost) {
+		if (!InfuraProvider.networkHostMap[network]) {
 			throw new Error('Network info not avalible.');
 		}
+		const defaultHost = `${InfuraProvider.networkHostMap[network]}.infura.io`;
 		const host = isValid(_host) ? _host : defaultHost;
 
 		return `${transport}://${host}/${
