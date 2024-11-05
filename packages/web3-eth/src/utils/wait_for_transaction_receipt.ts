@@ -25,6 +25,38 @@ import { pollTillDefinedAndReturnIntervalId, rejectIfTimeout } from 'web3-utils'
 import { rejectIfBlockTimeout } from './reject_if_block_timeout.js';
 // eslint-disable-next-line import/no-cycle
 import { getTransactionReceipt } from '../rpc_method_wrappers.js';
+// @ts-expect-error
+export function pollNewBlocks(web3Context: Web3Context<EthExecutionAPI>, pollInterval = 10000) {
+	// let latestBlockNumber = BigInt(0);
+	// console.log(pollInterval);
+	// setImmediate(async () => {
+	// 	latestBlockNumber = BigInt(await ethRpcMethods.getBlockNumber(web3Context.requestManager));
+	// 	eventEmitter.emit('data', { number: latestBlockNumber });
+	// });
+	// const eventEmitter = new EventEmitter();
+	// const interval = setInterval(async () => {
+	// 	try {
+	// 		const currentBlockNumber = BigInt(
+	// 			await ethRpcMethods.getBlockNumber(web3Context.requestManager),
+	// 		);
+	// 		if (currentBlockNumber > latestBlockNumber) {
+	// 			eventEmitter.emit('data', { number: currentBlockNumber });
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Error fetching new blocks:', error);
+	// 	}
+	// }, pollInterval);
+
+	return {
+		// @ts-expect-error
+		on: async (name: string, fn: (blockNumber: bigint) => void) => undefined, // eventEmitter.on(name, fn),
+		unsubscribe: () => {
+			console.log('Unsubscribing from new blocks');
+			// eventEmitter.removeAllListeners();
+			// clearInterval(interval);
+		},
+	};
+}
 
 export async function waitForTransactionReceipt<ReturnFormat extends DataFormat>(
 	web3Context: Web3Context<EthExecutionAPI>,
