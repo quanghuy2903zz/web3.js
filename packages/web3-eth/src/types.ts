@@ -36,10 +36,16 @@ import {
 	TransactionWithFromAndToLocalWalletIndex,
 	TransactionWithFromLocalWalletIndex,
 	TransactionWithToLocalWalletIndex,
+	TransactionHash,
 } from 'web3-types';
 import { Schema } from 'web3-validator';
 
 export type InternalTransaction = FormatType<Transaction, typeof ETH_DATA_FORMAT>;
+
+export type ReplacedEvent = {
+	hash: TransactionHash;
+	replacedHash: TransactionHash;
+};
 
 export type SendTransactionEventsBase<ReturnFormat extends DataFormat, TxType> = {
 	sending: FormatType<TxType, typeof ETH_DATA_FORMAT>;
@@ -51,6 +57,7 @@ export type SendTransactionEventsBase<ReturnFormat extends DataFormat, TxType> =
 		receipt: FormatType<TransactionReceipt, ReturnFormat>;
 		latestBlockHash: FormatType<Bytes, ReturnFormat>;
 	};
+	replaced: FormatType<ReplacedEvent, ReturnFormat>;
 	error:
 		| TransactionRevertedWithoutReasonError<FormatType<TransactionReceipt, ReturnFormat>>
 		| TransactionRevertInstructionError<FormatType<TransactionReceipt, ReturnFormat>>

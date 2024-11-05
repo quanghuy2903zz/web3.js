@@ -21,6 +21,7 @@ import {
 	Bytes,
 	HexString,
 	Numbers,
+	TransactionHash,
 	TransactionReceipt,
 	Web3ValidationErrorObject,
 } from 'web3-types';
@@ -156,6 +157,20 @@ export class TransactionRevertWithCustomError<
 			receipt: this.receipt,
 			data: this.data,
 		};
+	}
+}
+
+export class TransactionReplacementError extends TransactionError {
+	public hash: TransactionHash;
+	public replacedHash: TransactionHash;
+	public constructor(hash: TransactionHash, replacedHash: TransactionHash) {
+		super(`The transaction ${hash} was replaced with ${replacedHash}`);
+		this.hash = hash;
+		this.replacedHash = replacedHash;
+	}
+
+	public toJSON() {
+		return { ...super.toJSON(), hash: this.hash, replacedHash: this.replacedHash };
 	}
 }
 

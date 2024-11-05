@@ -52,7 +52,7 @@ import { Web3Context, Web3PromiEvent } from 'web3-core';
 import { format, hexToBytes, bytesToUint8Array, numberToHex } from 'web3-utils';
 import { TransactionFactory } from 'web3-eth-accounts';
 import { isBlockTag, isBytes, isNullish, isString } from 'web3-validator';
-import { SignatureError } from 'web3-errors';
+import { SignatureError, TransactionReplacementError } from 'web3-errors';
 import { ethRpcMethods } from 'web3-rpc-methods';
 
 import { decodeSignedTransaction } from './utils/decode_signed_transaction.js';
@@ -66,6 +66,7 @@ import {
 	SignatureObjectSchema,
 } from './schemas.js';
 import {
+	ReplacedEvent,
 	SendSignedTransactionEvents,
 	SendSignedTransactionOptions,
 	SendTransactionEvents,
@@ -82,6 +83,7 @@ import { waitForTransactionReceipt } from './utils/wait_for_transaction_receipt.
 import { NUMBER_DATA_FORMAT } from './constants.js';
 // eslint-disable-next-line import/no-cycle
 import { SendTxHelper } from './utils/send_tx_helper.js';
+import { WatchReplacement } from './watch_replacement.js';
 
 /**
  * View additional documentations here: {@link Web3Eth.getProtocolVersion}
@@ -581,6 +583,9 @@ export function sendTransaction<
 	options: SendTransactionOptions<ResolveType> = { checkRevertBeforeSending: true },
 	transactionMiddleware?: TransactionMiddleware,
 ): Web3PromiEvent<ResolveType, SendTransactionEvents<ReturnFormat>> {
+	if (!web3Context.watchReplacement) {
+		web3Context.watchReplacement = new WatchReplacement(web3Context);
+	}
 	const promiEvent = new Web3PromiEvent<ResolveType, SendTransactionEvents<ReturnFormat>>(
 		(resolve, reject) => {
 			setImmediate(() => {
@@ -638,6 +643,17 @@ export function sendTransaction<
 							wallet,
 							tx: transactionFormatted,
 						});
+						const replacedErrorCallback = ({ hash, replacedHash }: ReplacedEvent) => {
+							console.log('replacedErrorCallback', hash, replacedHash);
+							throw new TransactionReplacementError(hash, replacedHash);
+						};
+						web3Context.watchReplacement.watch(
+							promiEvent,
+							transactionFormatted as Transaction,
+							transactionHash,
+						);
+
+						promiEvent.on('replaced', replacedErrorCallback);
 
 						const transactionHashFormatted = format(
 							{ format: 'bytes32' },
@@ -654,6 +670,8 @@ export function sendTransaction<
 							transactionHash,
 							returnFormat ?? web3Context.defaultReturnFormat,
 						);
+						promiEvent.off('replaced', replacedErrorCallback);
+						web3Context.watchReplacement.stop(transactionHash);
 
 						const transactionReceiptFormatted = sendTxHelper.getReceiptWithEvents(
 							format(

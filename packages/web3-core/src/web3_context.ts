@@ -103,6 +103,7 @@ export class Web3Context<
 	protected _subscriptionManager: Web3SubscriptionManager<API, RegisteredSubs>;
 	protected _accountProvider?: Web3AccountProvider<Web3BaseWalletAccount>;
 	protected _wallet?: Web3BaseWallet<Web3BaseWalletAccount>;
+	public watchReplacement: any;
 
 	public constructor(
 		providerOrContext?:
