@@ -169,6 +169,7 @@ export class SendTxHelper<
 	}): Promise<TxType> {
 		let result = transactionFormatted;
 		if (
+			!this.web3Context.config.ignoreGasPricing &&
 			!this.options?.ignoreGasPricing &&
 			isNullish((transactionFormatted as Transaction).gasPrice) &&
 			(isNullish((transaction as Transaction).maxPriorityFeePerGas) ||
