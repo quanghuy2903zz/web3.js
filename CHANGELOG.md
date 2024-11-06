@@ -2768,9 +2768,17 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 -   fix `padRight` validation failure on large `uint` (#7265)
 
-## [Unreleased]
+## [4.15.0]
 
 ### Added
+
+#### web3-eth
+
+-   `createNewPendingTransactionFilter` , `createNewFilter` , `createNewBlockFilter` , `uninstallFilter` , `getFilterChanges` and `getFilterLogs` are exported from `Web3Eth` and `filtering_rpc_method_wrappers` (#7353)
+
+#### web3-eth-abi
+
+-   added `decodeFunctionCall` and `decodeFunctionReturn`. (#7345)
 
 #### web3-eth-accounts
 
@@ -2779,3 +2787,19 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 #### web3-rpc-providers
 
 -   PublicNodeProvider was added (#7322)
+
+#### web3-types
+
+-   `FilterParams` type added (#7353)
+
+#### web3-account-abstraction
+
+-   RC release
+
+### Fixed
+
+#### web3-eth-contracts
+
+-   Fix Contract methods input param type any[] (#7340)
+
+## [Unreleased]
