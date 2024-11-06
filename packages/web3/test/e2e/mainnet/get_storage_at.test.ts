@@ -85,7 +85,7 @@ describe(`${getSystemTestBackend()} tests - getStorageAt`, () => {
 		} else if (block === 'blockHash' || block === 'blockNumber') {
 			// eslint-disable-next-line jest/no-conditional-expect
 			expect(result).toBe(
-				'0x00000000000000000000000000000000000000000000000000ca4b6482090240',
+				'0x00000000000000000000000000000000000000000000000000ca4aafc2e0b163',
 			);
 		} else {
 			// eslint-disable-next-line jest/no-conditional-expect
