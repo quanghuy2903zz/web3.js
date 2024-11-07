@@ -2792,10 +2792,6 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 -   `FilterParams` type added (#7353)
 
-#### web3-account-abstraction
-
--   RC release
-
 ### Fixed
 
 #### web3-eth-contracts
